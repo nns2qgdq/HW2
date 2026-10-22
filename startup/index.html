@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f8fc">
+  <title>Startup Feature Selection Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="#top"><span class="brand-mark">S</span><span>Startup Feature Selection Lab</span></a><span class="top-note">互動式特徵選擇與迴歸</span></header>
+  <main id="top">
+    <section class="hero"><div class="eyebrow">DATA EXPLORER · MULTIPLE LINEAR REGRESSION</div><h1>比較特徵選擇方法</h1><p>載入 CSV，選擇方法，即時查看不同特徵數下的交叉驗證表現與欄位組合。</p><div class="hero-meta"><span id="status-dot" class="status-dot"></span><span id="status">準備載入資料</span><span class="meta-sep">·</span><span id="row-count">— 筆資料</span></div></section>
+    <section class="card source-card"><details id="source-settings"><summary><span><span class="eyebrow">DATA SOURCE</span><strong>資料來源設定</strong></span><span class="source-toggle">點擊修改 CSV 網址　＋</span></summary>
+      <form id="source-form" class="source-form"><label class="sr-only" for="csv-url">CSV 網址</label><input id="csv-url" type="url" value="https://raw.githubusercontent.com/Avik-Jain/100-Days-Of-ML-Code/refs/heads/master/datasets/50_Startups.csv" placeholder="貼上可公開存取的 CSV URL" required><button id="load-button" class="button button-primary" type="submit">載入資料 <span aria-hidden="true">→</span></button></form>
+      <p class="hint">需要欄位：R&amp;D Spend、Administration、Marketing Spend、State、Profit。網址需允許瀏覽器跨來源讀取（CORS）。</p><div id="error" class="error" role="alert" hidden></div>
+      </details>
+    </section>
+    <section class="card methods-card"><div class="section-heading"><div><div class="eyebrow">MODEL SELECTION</div><h2>特徵選擇方法切換 (Feature Selection Methods)</h2></div><span class="step-badge">02</span></div>
+      <div id="method-tabs" class="method-tabs" role="tablist" aria-label="特徵選擇方法"></div>
+      <div class="method-explainer"><span class="bulb">💡</span><div><h3 id="method-title">選擇一種特徵選擇方法</h3><p id="method-note">方法說明將顯示於此。</p></div></div>
+      <div id="analysis-status" class="analysis-status">載入資料後即可開始分析。</div>
+    </section>
+    <section class="card results-card">
+      <div class="results-header"><div><div class="eyebrow">VISUALIZATION &amp; COMPARISON</div><h2>特徵數量效能評估曲線 (Performance by Number of Features)</h2></div><div class="header-actions"><button id="download-chart" class="button button-secondary" type="button" disabled>⇩ 下載圖表</button><button id="run-button" class="button button-secondary" type="button" disabled>↻ 重新分析</button></div></div>
+      <div id="results" hidden>
+        <div class="chart-grid"><section class="chart-panel"><div class="chart-title-row"><h3>RMSE by Number of Features</h3><span class="good-pill green">越低越好 (Lower is better)</span></div><canvas id="rmse-chart" aria-label="RMSE 對特徵數折線圖"></canvas></section><section class="chart-panel"><div class="chart-title-row"><h3>R-squared by Number of Features</h3><span class="good-pill cyan">越高越好 (Higher is better)</span></div><canvas id="r2-chart" aria-label="R-squared 對特徵數折線圖"></canvas></section></div>
+        <div class="table-heading"><h3>Feature Selection Results (特徵選擇成果摘要表)</h3><span id="cv-caption">4-fold CV · 80% training split</span></div>
+        <div class="table-wrap result-table-wrap"><table><thead><tr><th>Number of Features</th><th>Selected Features</th><th>RMSE</th><th>R-squared</th></tr></thead><tbody id="result-rows"></tbody></table></div>
+        <p id="best-summary" class="best-result"></p>
+        <p class="evaluation-note">圖表比照 Python 的 feature-count 圖，顯示 random_state=42 的 80/20 切分後，訓練集上的 4-fold CV 探索結果。部分方法用同一組 CV 資料選特徵或 alpha 並評分，因此分數可能偏樂觀，不能當成無偏的最終泛化表現。正式比較請參考 Python 的 nested CV 結果，或對每個特徵數另做 nested CV。</p>
+      </div>
+    </section>
+    <footer><span>Startup Feature Selection Lab</span><span>瀏覽器端計算 · 可部署於 GitHub Pages</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

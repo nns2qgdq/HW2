@@ -1,0 +1,6 @@
+Assumption,Statistic,p_value,Interpretation
+"Linearity (Ramsey RESET, power=2)",21.62544219532214,3.4000311880086733e-06,p<0.05 suggests possible nonlinearity; inspect residual plot.
+Homoscedasticity (Breusch-Pagan),211.47378178052068,5.964219055036473e-34,p<0.05 suggests non-constant residual variance.
+Residual normality (Jarque-Bera),750.960266196063,8.531985942542148e-164,Large samples make this test sensitive; also inspect Q-Q plot.
+Error independence (Durbin-Watson by id order),1.9788460741738998,,Values near 2 indicate little first-order autocorrelation; row order is a proxy.
+Multicollinearity (maximum VIF),1.013310367707698,,VIF above 5 warrants review; report feature-level values separately.

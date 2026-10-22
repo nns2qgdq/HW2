@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Regression Lab｜多元線性迴歸互動分析</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><span class="brand-mark">R</span><span>Regression Lab</span></a>
+    <span class="top-note">多元線性迴歸・特徵選擇・模型評估</span>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="eyebrow">MULTIPLE LINEAR REGRESSION</div>
+      <h1>從資料到預測</h1>
+      <p>切換兩種分析案例，查看特徵選擇與模型表現；也可以載入自己的 CSV 試算。</p>
+    </section>
+
+    <section class="card problem-card">
+      <div class="section-heading">
+        <div><div class="eyebrow">PROBLEM EXPLORER</div><h2>選擇分析問題</h2></div>
+        <label class="select-wrap" for="problem-select"><span class="sr-only">分析問題</span>
+          <select id="problem-select">
+            <option value="flood">洪水機率預測 · FloodProbability</option>
+            <option value="startup">新創公司利潤 · Startup Profit</option>
+          </select>
+        </label>
+      </div>
+      <div id="problem-info" class="problem-info"></div>
+      <div id="problem-error" class="error" role="alert" hidden></div>
+      <div id="precomputed-results" class="precomputed-results" hidden>
+        <div id="metric-cards" class="metric-grid"></div>
+        <div class="table-heading"><h3>特徵選擇與交叉驗證比較</h3><span id="comparison-note"></span></div>
+        <div class="table-wrap"><table><thead id="comparison-head"></thead><tbody id="comparison-body"></tbody></table></div>
+        <section id="flood-charts" class="interactive-charts" hidden aria-label="Flood 互動圖表">
+          <article class="chart-panel">
+            <div class="chart-header"><div><div class="eyebrow">FEATURE SELECTION</div><h3>交叉驗證表現比較</h3><p>點選方法列查看特徵與分數；切換指標比較。長條越長代表表現越佳。</p></div>
+              <div class="segmented" role="group" aria-label="選擇評估指標">
+                <button type="button" class="active" data-selection-metric="CV RMSE" aria-pressed="true">CV RMSE</button>
+                <button type="button" data-selection-metric="CV R2" aria-pressed="false">CV R²</button>
+              </div>
+            </div>
+            <svg id="selection-chart" class="interactive-chart" role="img" aria-label="特徵選擇方法交叉驗證比較圖"></svg>
+            <div id="selection-detail" class="chart-detail" aria-live="polite"></div>
+          </article>
+          <article class="chart-panel">
+            <div class="chart-header"><div><div class="eyebrow">HOLDOUT PREDICTIONS</div><h3>預測區間探索</h3><p>移動游標檢視每個樣本的實際值、預測值與區間。</p></div>
+              <label class="compact-control">區間類型
+                <select id="interval-type"><option value="obs">個別觀測預測區間</option><option value="mean">平均值信賴區間</option></select>
+              </label>
+            </div>
+            <div class="range-row"><label for="interval-count">顯示樣本</label><input id="interval-count" type="range" min="100" max="1000" step="100" value="300"><output id="interval-count-value" for="interval-count">300</output></div>
+            <svg id="interval-chart" class="interactive-chart interval-chart" role="img" aria-label="保留測試集預測區間互動圖"></svg>
+            <div class="chart-legend"><span><i class="legend-dot actual"></i>實際值</span><span><i class="legend-line predicted"></i>OLS 預測</span><span><i class="legend-band"></i><span id="interval-legend-label">95% 預測區間</span></span></div>
+            <div id="interval-detail" class="chart-detail" aria-live="polite">將游標移至樣本點檢視明細。</div>
+          </article>
+          <article class="chart-panel diagnostic-panel">
+              <div class="chart-header"><div><div class="eyebrow">MODEL DIAGNOSTICS</div><h3>殘差診斷探索</h3><p>使用固定抽樣的保留測試資料；散佈圖 X 軸為 OLS 預測值，直方圖 X 軸為殘差。</p></div>
+              <label class="compact-control">診斷圖
+                <select id="diagnostic-type"><option value="residuals">殘差對預測值</option><option value="scale">尺度位置</option><option value="histogram">殘差分布</option></select>
+              </label>
+            </div>
+            <svg id="diagnostic-chart" class="interactive-chart diagnostic-chart" role="img" aria-label="回歸殘差互動診斷圖"></svg>
+            <div id="diagnostic-detail" class="chart-detail" aria-live="polite"></div>
+          </article>
+        </section>
+        <section id="startup-charts" class="interactive-charts" hidden aria-label="Startup 互動圖表">
+          <article class="chart-panel">
+            <div class="chart-header"><div><div class="eyebrow">STARTUP MODEL COMPARISON</div><h3>五種方法的模型表現</h3><p>點選方法查看入選欄位；切換巢狀交叉驗證或保留測試集指標。</p></div>
+              <div class="segmented startup-metrics" role="group" aria-label="選擇 Startup 評估指標">
+                <button type="button" class="active" data-startup-metric="Nested CV RMSE" aria-pressed="true">Nested CV RMSE</button>
+                <button type="button" data-startup-metric="Nested CV R2" aria-pressed="false">Nested CV R²</button>
+                <button type="button" data-startup-metric="Test RMSE" aria-pressed="false">Test RMSE</button>
+                <button type="button" data-startup-metric="Test R2" aria-pressed="false">Test R²</button>
+              </div>
+            </div>
+            <svg id="startup-chart" class="interactive-chart" role="img" aria-label="Startup 五種方法模型表現比較圖"></svg>
+            <div id="startup-detail" class="chart-detail" aria-live="polite"></div>
+          </article>
+        </section>
+        <p id="method-note" class="note"></p>
+      </div>
+    </section>
+
+    <section class="card custom-card" id="custom-dataset">
+      <div class="section-heading">
+        <div><div class="eyebrow">CUSTOM DATASET · BONUS</div><h2>載入自己的 CSV</h2></div>
+        <span class="step-badge">+2</span>
+      </div>
+      <p class="section-copy">輸入公開 CSV 網址或選擇本機檔案。請選擇連續數值目標欄與特徵欄；網址來源需允許瀏覽器跨來源讀取（CORS）。</p>
+      <form id="custom-form" class="source-form">
+        <label class="sr-only" for="csv-url">CSV 網址</label>
+        <input id="csv-url" type="url" placeholder="https://example.com/data.csv">
+        <label class="file-button" for="csv-file">選擇本機 CSV</label>
+        <input id="csv-file" class="sr-only" type="file" accept=".csv,text/csv">
+        <button id="load-button" class="button button-primary" type="submit">載入資料 <span aria-hidden="true">→</span></button>
+      </form>
+      <div id="custom-error" class="error" role="alert" hidden></div>
+      <div id="custom-setup" hidden>
+        <div class="dataset-meta" id="dataset-meta"></div>
+        <div class="field-config">
+          <div><label class="field-label" for="target-select">預測目標</label><select id="target-select"></select></div>
+          <div class="feature-control"><div class="field-label">輸入特徵 <span id="feature-count"></span></div><div id="feature-list" class="feature-list"></div></div>
+        </div>
+        <div class="run-row"><button id="analyze-button" class="button button-primary" type="button">執行迴歸分析</button><span id="custom-status" class="status-text"></span></div>
+        <div id="custom-results" hidden>
+          <div id="custom-metrics" class="metric-grid"></div>
+          <figure class="visual-card custom-chart-card"><canvas id="custom-chart" aria-label="實際值對預測值圖"></canvas><figcaption>保留測試集：實際值與預測值</figcaption></figure>
+          <div class="table-heading"><h3>模型係數</h3><span>標準化特徵係數</span></div>
+          <div class="table-wrap"><table><thead><tr><th>特徵</th><th>係數</th></tr></thead><tbody id="coefficient-rows"></tbody></table></div>
+        </div>
+      </div>
+      <p class="note">自訂資料由瀏覽器在本機處理。為保持互動流暢，超過 40,000 筆時會以固定亂數抽樣；請勿將抽樣結果當作正式報告的最終測試評估。</p>
+    </section>
+    <footer><span>Regression Lab</span><span><a href="startup/">開啟 Startup 完整特徵數探索實驗</a> · Python 正式分析請見專案 README</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
