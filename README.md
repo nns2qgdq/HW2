@@ -2,6 +2,11 @@
 
 本專案以 Kaggle 的 Flood Prediction Dataset 練習多元線性迴歸，預測連續目標 `FloodProbability`，並比較特徵選擇與線性模型。交付內容包含 Python 分析程式、可重現結果、CRISP-DM 報告，以及含兩種分析案例和自訂 CSV 功能的互動網頁。
 
+- 🔗 **儲存庫網址**：<https://github.com/nns2qgdq/HW2>
+- 🌐 **Live Demo Page**：<https://nns2qgdq.github.io/HW2/>
+
+![Regression Lab 線上展示預覽](assets/preview.png)
+
 > **資料解讀界線**：資料來自 Kaggle 的 Flood Prediction Dataset／Playground Series，適合課程建模練習，但沒有可核實的地理座標、時間戳記及實際洪水事件標籤。模型是在預測資料集提供的連續分數，不是實地洪水預警，也不能視為已校準的洪水發生機率。
 
 ## 專案需求與資料來源
@@ -88,7 +93,10 @@ python flood_regression_hw2.py
 
 ## 互動網頁
 
-網頁是靜態 HTML/CSS/JavaScript，不需要 Python 後端。於專案根目錄啟動本機伺服器：
+網頁是靜態 HTML/CSS/JavaScript，不需要 Python 後端。
+
+- 🌐 **線上展示（Live Demo）**：<https://nns2qgdq.github.io/HW2/>
+- **本機啟動方式**：於專案根目錄啟動本機伺服器：
 
 ```bash
 python3 -m http.server 8765
@@ -114,7 +122,8 @@ python3 -m http.server 8765
 - CRISP-DM 報告 PDF 未納入 Git；`report/build_report.py` 與來源資料可用於產生本機報告。NotebookLM 摘要已納入報告來源；GPT pdfCrowd 對話匯出尚未收到，取得後需整合並重新檢查最終版。
 - [`report/source/NotebookLM_summary.md`](report/source/NotebookLM_summary.md)：已收到的 NotebookLM 摘要來源檔。
 - GPT pdfCrowd 匯出檔尚未提供；放入 `report/source/` 後需重新編入 PDF。附件命名及狀態見 [`report/source/README.md`](report/source/README.md)。
-- GitHub repository：[nns2qgdq/1014-dic2](https://github.com/nns2qgdq/1014-dic2)。本次整合已準備在本機 `main`，尚未推送到遠端。
+- 儲存庫網址（GitHub Repository）：[nns2qgdq/HW2](https://github.com/nns2qgdq/HW2)
+- Live Demo Page：[https://nns2qgdq.github.io/HW2/](https://nns2qgdq.github.io/HW2/)
 
 ## 專案結構
 
@@ -125,6 +134,7 @@ HW2_v2/
 ├── flood_regression_hw2.py           # 本次 Flood 多元線性迴歸主程式
 ├── 50_startups_regression.py          # 既有 Startup 分析程式
 ├── 50_Startups.csv                   # 既有 Startup 資料
+├── assets/                           # 專案預覽圖與展示靜態資源
 ├── data/
 │   ├── DATASET_AUDIT.md              # Flood CSV 稽核與欄位摘要
 │   └── *.csv                         # 下載後的原始資料；由 Git 忽略
